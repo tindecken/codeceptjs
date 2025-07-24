@@ -1,5 +1,8 @@
 Feature('login');
 
-Scenario('test something',  ({ I }) => {
-
+Scenario('test something',  async ({ I, loginPage }) => {
+    await I.amOnPage('')
+    await loginPage.login()
+    await I.wait(5)
+    await I.seeElement({xpath: '//span[contains(text(),"The username or password you entered is incorrect.")]'})
 });
