@@ -2,6 +2,9 @@ import {
   setHeadlessWhen,
   setCommonPlugins
 } from '@codeceptjs/configure';
+import { appSettings } from './appSettings';
+import { output } from 'codeceptjs';
+const path = require('path');
 // turn on headless mode when running with HEADLESS=true environment variable
 // export HEADLESS=true && npx codeceptjs run
 setHeadlessWhen(process.env.HEADLESS);
@@ -15,9 +18,12 @@ export const config: CodeceptJS.MainConfig = {
   helpers: {
     Playwright: {
       browser: 'chromium',
-      url: 'https://stockkqa.sucafina.corp/',
+      url: appSettings.stockK.baseUrl,
       show: true,
-    }
+    },
+    FolderHelper: {
+      require: './helpers/folderHelper.ts',
+    },
   },
   include: {
     I: './steps_file',
@@ -25,4 +31,22 @@ export const config: CodeceptJS.MainConfig = {
   },
   name: 'codeceptjs',
   fullPromiseBased: true,
+  plugins: {
+    // Disable default screenshot plugin
+    screenshotOnFail: {
+      enabled: true,
+      output: () => {
+        return path.join('./output', 'test_something_2025-08-08T10-54-28');
+      }
+    },
+    // Enable our custom plugin
+    customScreenshot: {
+      enabled: false,
+      require: './plugins/CustomScreenshot.js',
+      helper: 'Playwright'
+    }
+  },
+  async bootstrap() {
+    console.log('Bootstrapping CodeceptJS...');
+  }
 }

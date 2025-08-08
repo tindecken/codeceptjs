@@ -1,4 +1,5 @@
 const { I } = inject();
+import { appSettings } from "../appSettings";
 
 export = {
 
@@ -8,9 +9,9 @@ export = {
   loginButton: {xpath: '//button/span[text()="Log in"]'},
 
   // setting methods
-  login() {
-    I.fillField(this.userName, 'admin');
-    I.fillField(this.password, 'admin');
+  loginWithUserHNU() {
+    I.fillField(this.userName, appSettings.users.hnu.userName);
+    I.fillField(this.password, appSettings.users.hnu.password);
     I.click(this.loginButton);
   }
 }
