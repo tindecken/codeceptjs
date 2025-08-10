@@ -1,11 +1,4 @@
-const { I } = inject();
-const loginPage = require('./login') as {
-  textLogin: string;
-  setEmailAddress(email: string): Promise<void>;
-  setPassword(password: string): Promise<void>;
-  clickLoginButton(): Promise<void>;
-};
-
+const { I, loginPage } = inject();
 class rightToolbarPage {
   #container: string;
   #btnLogout: string;
@@ -31,6 +24,9 @@ class rightToolbarPage {
   }
 }
 
-// For inheritance
+// Export both the class and an instance
+export default rightToolbarPage;
+
+// For CodeceptJS compatibility
 module.exports = new rightToolbarPage();
-export = rightToolbarPage;
+module.exports.default = rightToolbarPage;

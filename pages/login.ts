@@ -26,6 +26,9 @@ class loginPage {
   }
 }
 
-// For inheritance
+// Export both the class and an instance
+export default loginPage;
+
+// For CodeceptJS compatibility
 module.exports = new loginPage();
-export = loginPage;
+module.exports.default = loginPage;
