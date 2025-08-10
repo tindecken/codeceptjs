@@ -2,9 +2,10 @@ import {
   setHeadlessWhen,
   setCommonPlugins
 } from '@codeceptjs/configure';
-import { appSettings } from './appSettings';
-import { output } from 'codeceptjs';
-const path = require('path');
+import {
+  appSettings
+} from './appSettings';
+
 // turn on headless mode when running with HEADLESS=true environment variable
 // export HEADLESS=true && npx codeceptjs run
 setHeadlessWhen(process.env.HEADLESS);
@@ -13,7 +14,7 @@ setHeadlessWhen(process.env.HEADLESS);
 setCommonPlugins();
 
 export const config: CodeceptJS.MainConfig = {
-  tests: './*_test.ts',
+  tests: './tests/**/*_test.ts',
   output: './output',
   helpers: {
     Playwright: {
@@ -28,22 +29,21 @@ export const config: CodeceptJS.MainConfig = {
   include: {
     I: './steps_file',
     loginPage: "./pages/login.ts",
+    rightToolbarPage: "./pages/rightToolbar.ts",
   },
   name: 'codeceptjs',
-  fullPromiseBased: true,
+  fullPromiseBased: false,
   plugins: {
     // Disable default screenshot plugin
     screenshotOnFail: {
       enabled: true,
-      output: () => {
-        return path.join('./output', 'test_something_2025-08-08T10-54-28');
-      }
+      uniqueScreenshotNames: false,
+      fullPageScreenshots: true,
     },
     // Enable our custom plugin
-    customScreenshot: {
-      enabled: false,
-      require: './plugins/CustomScreenshot.js',
-      helper: 'Playwright'
+    moveScreenshoot: {
+      enabled: true,
+      require: './plugins/MoveScreenshot.js',
     }
   },
   async bootstrap() {

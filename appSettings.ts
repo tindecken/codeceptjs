@@ -58,7 +58,7 @@ interface AppSettings {
     
 export const appSettings : AppSettings = {
     stockK: {
-        baseUrl: "https://stockkqa.sucafina.corp",
+        baseUrl: "http://localhost:3000/",
         baseApiUrl: "https://stockkqa.sucafina.corp:44317/api"
     },
     logging: {
