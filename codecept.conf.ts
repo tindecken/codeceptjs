@@ -32,7 +32,7 @@ export const config: CodeceptJS.MainConfig = {
     rightToolbarPage: "./pages/rightToolbar.ts",
   },
   name: 'codeceptjs',
-  fullPromiseBased: false,
+  fullPromiseBased: true,
   plugins: {
     // Disable default screenshot plugin
     screenshotOnFail: {
