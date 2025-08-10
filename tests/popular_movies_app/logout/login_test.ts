@@ -9,5 +9,5 @@ Scenario('Login then logout Popular Movies app',  async ({ I, rightToolbarPage, 
     await I.seeElement(rightToolbarPage.btnUserProfile);
     await rightToolbarPage.clickUserProfile();
     await rightToolbarPage.clickLogout();
-    await I.seeElement(rightToolbarPage.btnLogin);
+    await I.seeElement(rightToolbarPage.btnUserProfile);
 });

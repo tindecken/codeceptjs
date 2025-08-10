@@ -21,6 +21,8 @@ export const config: CodeceptJS.MainConfig = {
       browser: 'chromium',
       url: appSettings.stockK.baseUrl,
       show: true,
+      trace: true,
+      video: true,
     },
     FolderHelper: {
       require: './helpers/folderHelper.ts',
