@@ -1,6 +1,7 @@
 Feature('Popular Movies app - Login');
 
 Scenario('Login then logout Popular Movies app',  async ({ I, rightToolbarPage, loginPage  }) => {
+    await I.log('BBBBBBBBBBBBBBB')
     await I.amOnPage('')
     await rightToolbarPage.clickLoginButton();
     await loginPage.setEmailAddress("tindecken@gmail.com");

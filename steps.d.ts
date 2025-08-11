@@ -8,10 +8,11 @@ type RightToolbarPageClass = typeof import('./pages/rightToolbar').default;
 type loginPage = InstanceType<LoginPageClass>;
 type rightToolbarPage = InstanceType<RightToolbarPageClass>;
 type FolderHelper = import('./helpers/folderHelper');
+type Log = import('./helpers/logHelper');
 
 declare namespace CodeceptJS {
   interface SupportObject { I: I, current: any, loginPage: loginPage, rightToolbarPage: rightToolbarPage }
-  interface Methods extends Playwright, FolderHelper {}
+  interface Methods extends PlaywrightTs, FileSystemTs, FolderHelper, Log {}
   interface I extends ReturnType<steps_file>, WithTranslation<Methods> {}
   namespace Translation {
     interface Actions {}

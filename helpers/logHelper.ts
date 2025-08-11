@@ -1,32 +1,32 @@
 const Helper = require('@codeceptjs/helper');
+
 import fs from 'fs';
 import path from 'path';
 
 class LogHelper extends Helper {
-  /**
-   * Static method to log messages
-   * @param message The message to log
-   */
-  async log(message: string): Promise<void> {
-    const folderHelper = codeceptjs.container.helpers('FolderHelper');
-    console.log('folderHelper', folderHelper)
-    if (!folderHelper) return;
-    const testInfo = await this.getTestInfo();
-    console.log('folderPath', folderPath)
-    if (!folderPath) return;
+  log(message: string): void {
+    const currentTest = codeceptjs.store.currentTest;
+    const currentStep = codeceptjs.store.currentStep;
+    console.log('currentStep', currentStep);
+
     
-    const logFilePath = path.join(folderPath, 'log.txt');
-    console.log('logFilePath', logFilePath)
-    fs.appendFileSync(logFilePath, message + '\n');
-  }
-  async getTestInfo() {
-    return {
-      title: this.scenario.test.title,
-      file: this.scenario.test.file,
-      tags: this.scenario.test.tags,
-      id: this.scenario.test.id,
-      // Other available properties
-    };
+    // Safely access test context and testFolder with fallback
+    const ctx = (currentTest as any)?.ctx;
+    if (!ctx) {
+      console.error('Test context not found');
+      throw new Error('Test context not found');
+    }
+    const logDir = ctx.testFolder;
+    const logPath = path.join(logDir, 'log.txt');
+
+    if (!fs.existsSync(logDir)) {
+      fs.mkdirSync(logDir, { recursive: true });
+    }
+    const timestamp = new Date().toISOString();
+    const actor = currentStep.metaStep?.actor ? `${currentStep.metaStep.actor}.` : '';
+    const stepName = currentStep.metaStep?.name || '';
+    const logMessage = `[${timestamp}] ${actor}${stepName} - ${message}\n`;
+    fs.appendFileSync(logPath, logMessage, 'utf8');
   }
 }
 
