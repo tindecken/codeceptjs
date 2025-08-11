@@ -27,6 +27,10 @@ export const config: CodeceptJS.MainConfig = {
     FolderHelper: {
       require: './helpers/folderHelper.ts',
     },
+    FileSystem: {},
+    Log: {
+      require: './helpers/logHelper.ts',
+    }
   },
   include: {
     I: './steps_file',
@@ -43,9 +47,9 @@ export const config: CodeceptJS.MainConfig = {
       fullPageScreenshots: true,
     },
     // Enable our custom plugin
-    moveScreenshoot: {
+    moveScreenshootTraceVideo: {
       enabled: true,
-      require: './plugins/MoveScreenshot.js',
+      require: './plugins/MoveScreenshotTraceVideo.ts',
     }
   },
   async bootstrap() {
