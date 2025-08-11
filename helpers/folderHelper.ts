@@ -17,7 +17,6 @@ class FolderHelper extends Helper {
     
     // Store in global object
     this.testFolders[test.id] = folderPath;
-    console.log('Test id:', test.id);
     test.ctx.testFolder = folderPath; // Still set for test access
   }
 

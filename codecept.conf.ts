@@ -56,7 +56,4 @@ export const config: CodeceptJS.MainConfig = {
       require: './plugins/LogAfterTest.ts',
     }
   },
-  async bootstrap() {
-    console.log('Bootstrapping CodeceptJS...');
-  }
 }

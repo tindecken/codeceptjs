@@ -19,7 +19,6 @@ class rightToolbarPage {
     await I.click(this.#btnLogout);
   }
   async clickLoginButton(): Promise<void> {
-    await I.log('aaaaaaaaaaaaaaaaaaaaaaa')
     await I.click(this.btnLogin);
     await I.waitForElement(loginPage.textLogin, 5);
   }
