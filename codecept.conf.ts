@@ -50,6 +50,10 @@ export const config: CodeceptJS.MainConfig = {
     moveScreenshootTraceVideo: {
       enabled: true,
       require: './plugins/MoveScreenshotTraceVideo.ts',
+    },
+    logAfterTest: {
+      enabled: true,
+      require: './plugins/LogAfterTest.ts',
     }
   },
   async bootstrap() {

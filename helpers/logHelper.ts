@@ -28,6 +28,12 @@ class LogHelper extends Helper {
     const logMessage = `[${timestamp}] ${actor}${stepName} - ${message}\n`;
     fs.appendFileSync(logPath, logMessage, 'utf8');
   }
+  logResult(logPath: string, message: string) {
+    const timestamp = new Date().toISOString();
+    const logMessage = `[${timestamp}] ${message}\n`;
+    console.log('logMessage', logMessage);
+    fs.appendFileSync(logPath, logMessage, 'utf8');
+  }
 }
 
 export = LogHelper;
