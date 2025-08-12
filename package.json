@@ -21,6 +21,8 @@
         "typescript": "^5.8.3"
     },
     "dependencies": {
+        "@codeceptjs/expect-helper": "^1.0.2",
+        "chai": "^5.2.1",
         "exceljs": "^4.4.0",
         "openai": "^5.12.2"
     }

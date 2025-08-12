@@ -24,7 +24,9 @@ export const config: CodeceptJS.MainConfig = {
       trace: true,
       video: true,
     },
-    Expect: {},
+    Expect: {
+      require: '@codeceptjs/expect-helper'
+    },
     FolderHelper: {
       require: './helpers/folderHelper.ts',
     },
