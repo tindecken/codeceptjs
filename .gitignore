@@ -52,3 +52,4 @@ output/
 allure-results/
 allure-report/
 mochawesome-report/
+testData/inventories/importFiles/4RowsFullData_Template_Updated.xlsx

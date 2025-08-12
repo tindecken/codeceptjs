@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs').promises;
 const { glob } = require('glob');
 
-async function moveFileIfExists(sourcePattern, destPath) {
+async function moveFileIfExists(sourcePattern: string, destPath: string) {
   console.log(`[DEBUG] Looking for files matching: ${sourcePattern}`);
   try {
     const files = await glob(sourcePattern);

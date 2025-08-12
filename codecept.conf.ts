@@ -30,12 +30,16 @@ export const config: CodeceptJS.MainConfig = {
     FileSystem: {},
     Log: {
       require: './helpers/logHelper.ts',
+    },
+    ExcelHelper: {
+      require: './helpers/excelHelper.ts',
     }
   },
   include: {
     I: './steps_file',
     loginPage: "./pages/login.ts",
     rightToolbarPage: "./pages/rightToolbar.ts",
+    stockkLoginPage: "./pages/stockk/stockkLogin.ts",
   },
   name: 'codeceptjs',
   fullPromiseBased: true,

@@ -21,7 +21,6 @@ class LogHelper extends Helper {
       fs.mkdirSync(logDir, { recursive: true });
     }
     const timestamp = new Date().toISOString();
-    console.log('currentStep', currentStep);
     const actor = currentStep.metaStep?.actor ? `${currentStep.metaStep.actor}.` : '';
     const stepName = currentStep.metaStep?.name || '';
     const logMessage = `[${timestamp}] ${actor}${stepName} - ${message}\n`;

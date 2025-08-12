@@ -1,11 +1,11 @@
 // plugins/LogAfterTest.ts
-const codeceptE = require("codeceptjs").event;
+const codeceptEvt = require("codeceptjs").event;
 import path from "path";
 
 module.exports = async function () {
-  codeceptE.dispatcher.on(codeceptE.test.after, async function (test) {
+  codeceptEvt.dispatcher.on(codeceptEvt.test.after, async function (test) {
     try {
-      console.log("test error:", test.err);
+      
       const folderHelper = codeceptjs.container.helpers("FolderHelper");
       if (!folderHelper) return;
 
