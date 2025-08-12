@@ -24,6 +24,7 @@ export const config: CodeceptJS.MainConfig = {
       trace: true,
       video: true,
     },
+    Expect: {},
     FolderHelper: {
       require: './helpers/folderHelper.ts',
     },
@@ -33,6 +34,9 @@ export const config: CodeceptJS.MainConfig = {
     },
     ExcelHelper: {
       require: './helpers/excelHelper.ts',
+    },
+    AIHelper: {
+      require: './helpers/aiHelper.ts',
     }
   },
   include: {

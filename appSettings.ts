@@ -54,6 +54,12 @@ interface AppSettings {
         userName: string
         password: string
     }
+    ai: {
+        deepSeek: {
+            apiKey: string
+            baseUrl: string
+        }
+    }
 }
     
 export const appSettings : AppSettings = {
@@ -111,5 +117,11 @@ export const appSettings : AppSettings = {
         baseUrl: "https://uat.stockk.org/v1/inbound_web/RestService.svc",
         userName: "biztalktestuser",
         password: "M)C5$f5LC&V$HYA4"
+    },
+    ai: {
+        deepSeek: {
+            apiKey: "sk-f75469c79b2a49a789c39aa23932d21a",
+            baseUrl: "https://api.deepseek.com"
+        }
     }
 };

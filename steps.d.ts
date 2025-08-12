@@ -17,11 +17,12 @@ type stockkSpinner = InstanceType<StockkSpinnerClass>;
 type FolderHelper = import('./helpers/folderHelper');
 type Log = import('./helpers/logHelper');
 type ExcelHelper = import('./helpers/excelHelper');
+type AIHelper = import('./helpers/aiHelper');
 
 
 declare namespace CodeceptJS {
-  interface SupportObject { I: I, current: any, loginPage: loginPage, rightToolbarPage: rightToolbarPage, stockkLoginPage: stockkLoginPage, stockkTopBar: stockkTopBar, stockkSpinner: stockkSpinner }
-  interface Methods extends PlaywrightTs, FileSystemTs, FolderHelper, Log, ExcelHelper {}
+  interface SupportObject { I: I, loginPage: loginPage, rightToolbarPage: rightToolbarPage, stockkLoginPage: stockkLoginPage, stockkTopBar: stockkTopBar, stockkSpinner: stockkSpinner }
+  interface Methods extends PlaywrightTs, FileSystemTs, FolderHelper, Log, ExcelHelper, AIHelper, ExpectHelper {}
   interface I extends ReturnType<steps_file>, WithTranslation<Methods> {}
   namespace Translation {
     interface Actions {}

@@ -21,6 +21,7 @@
         "typescript": "^5.8.3"
     },
     "dependencies": {
-        "exceljs": "^4.4.0"
+        "exceljs": "^4.4.0",
+        "openai": "^5.12.2"
     }
 }
