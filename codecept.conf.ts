@@ -49,6 +49,7 @@ export const config: CodeceptJS.MainConfig = {
     stockkTopBar: "./pages/stockk/fragments/topBar/stockkTopBar.ts",
     stockkSpinner: "./pages/stockk/fragments/spinner/stockkSpinner.ts",
     stockkMenu: "./pages/stockk/fragments/menu/stockkMenu.ts",
+    stockKInventoryListPage: "./pages/stockk/inventoryList/stockKInventoryListPage.ts",
   },
   name: 'codeceptjs',
   fullPromiseBased: true,
