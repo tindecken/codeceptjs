@@ -3,10 +3,10 @@
     "files": true
   },
   "compilerOptions": {
-    "target": "es2018",
-    "lib": ["es2018", "DOM"],
+    "target": "ES2022",        // Output modern JS
+    "lib": ["ES2022", "DOM"],  // Use ES2022 + browser types
+    "module": "commonjs",        // Output ESM modules
     "esModuleInterop": true,
-    "module": "commonjs",
     "strictNullChecks": false,
     "types": ["codeceptjs", "node"],
     "declaration": true,

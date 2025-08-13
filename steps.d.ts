@@ -18,10 +18,11 @@ type FolderHelper = import('./helpers/folderHelper');
 type Log = import('./helpers/logHelper');
 type ExcelHelper = import('./helpers/excelHelper');
 type AIHelper = import('./helpers/aiHelper');
-
+type StockkMenuClass = typeof import('./pages/stockk/fragments/menu/stockkMenu').default;
+type stockkMenu = InstanceType<StockkMenuClass>;
 
 declare namespace CodeceptJS {
-  interface SupportObject { I: I, loginPage: loginPage, rightToolbarPage: rightToolbarPage, stockkLoginPage: stockkLoginPage, stockkTopBar: stockkTopBar, stockkSpinner: stockkSpinner }
+  interface SupportObject { I: I, loginPage: loginPage, rightToolbarPage: rightToolbarPage, stockkLoginPage: stockkLoginPage, stockkTopBar: stockkTopBar, stockkSpinner: stockkSpinner, stockkMenu: stockkMenu }
   interface Methods extends PlaywrightTs, FileSystemTs, FolderHelper, Log, ExcelHelper, AIHelper, ExpectHelper {}
   interface I extends ReturnType<steps_file>, WithTranslation<Methods> {}
   namespace Translation {

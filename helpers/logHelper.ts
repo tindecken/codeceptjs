@@ -6,7 +6,6 @@ import path from 'path';
 class LogHelper extends Helper {
   log(message: string): void {
     const currentTest = codeceptjs.store.currentTest;
-    const currentStep = codeceptjs.store.currentStep;
     
     // Safely access test context and testFolder with fallback
     const ctx = (currentTest as any)?.ctx;
@@ -21,9 +20,7 @@ class LogHelper extends Helper {
       fs.mkdirSync(logDir, { recursive: true });
     }
     const timestamp = new Date().toISOString();
-    const actor = currentStep.metaStep?.actor ? `${currentStep.metaStep.actor}.` : '';
-    const stepName = currentStep.metaStep?.name || '';
-    const logMessage = `[${timestamp}] ${actor}${stepName} - ${message}\n`;
+    const logMessage = `[${timestamp}] ${message}\n`;
     fs.appendFileSync(logPath, logMessage, 'utf8');
   }
   logResult(logPath: string, message: string) {
