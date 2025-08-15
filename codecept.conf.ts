@@ -50,6 +50,7 @@ export const config: CodeceptJS.MainConfig = {
     stockkSpinner: "./pages/stockk/fragments/spinner/stockkSpinner.ts",
     stockkMenu: "./pages/stockk/fragments/menu/stockkMenu.ts",
     stockKInventoryListPage: "./pages/stockk/inventoryList/stockKInventoryListPage.ts",
+    stockkToastMessage: "./pages/stockk/fragments/toastMessage/stockkToastMessage.ts",
   },
   name: 'codeceptjs',
   fullPromiseBased: true,
