@@ -17,7 +17,7 @@ Scenario('Login to stockk with valid user invalid password',  async ({ I, stockk
     await I.seeElement(stockkLoginPage.txtInvalidUserPassword);
 });
 
-Scenario('Import inventory',  async ({ I, stockkLoginPage, stockkTopBar, stockkMenu, stockKInventoryListPage  }) => {
+Scenario('Import inventory with invalid file',  async ({ I, stockkLoginPage, stockkTopBar, stockkMenu, stockKInventoryListPage  }) => {
     await I.amOnPage('')
     await stockkLoginPage.LoginWithHNU();
     await stockkTopBar.seeAvatarBlock();
@@ -27,4 +27,21 @@ Scenario('Import inventory',  async ({ I, stockkLoginPage, stockkTopBar, stockkM
     await stockKInventoryListPage.ImportFileDialog.SelectFile("testData\\inventories\\importFiles\\4RowsFullData_Template.xlsx");
     await stockKInventoryListPage.ImportFileDialog.ClickImportButton();
     await stockKInventoryListPage.stockkToastMessage.seeErrorToastMessageWithText('- Input string was not in a correct format.')
+});
+
+Scenario('Import inventory with valid file',  async ({ I, stockkLoginPage, stockkTopBar, stockkMenu, stockKInventoryListPage }) => {
+    await I.amOnPage('')
+    await I.findAndReplaceTextInExcelFile('testData\\inventories\\importFiles\\4RowsFullData_Template.xlsx', 'testData\\inventories\\importFiles\\4RowsFullData_Template_Updated.xlsx', '${ItemReference}', 'Item Reference');
+    await I.findAndReplaceTextInExcelFile('testData\\inventories\\importFiles\\4RowsFullData_Template_Updated.xlsx', 'testData\\inventories\\importFiles\\4RowsFullData_Template_Updated.xlsx', '${ArticleDescription}', 'Article Description');
+    await stockkLoginPage.LoginWithHNU();
+    await stockkTopBar.seeAvatarBlock();
+    await stockkTopBar.switchCompany("SUCSA");
+    await stockkMenu.GoToMenu("Inventory");
+    await stockKInventoryListPage.ClickImportButton();
+    await stockKInventoryListPage.ImportFileDialog.SelectFile("testData\\inventories\\importFiles\\4RowsFullData_Template_Updated.xlsx");
+    await stockKInventoryListPage.ImportFileDialog.ClickImportButton();
+    await stockKInventoryListPage.stockkToastMessage.seeSuccessToastMessageWithoutText();
+    await stockKInventoryListPage.ConfirmPopup.SeeMessage('Review all imported items and edit if needed')
+    await stockKInventoryListPage.ConfirmPopup.ClickApproveButton();
+    pause()
 });

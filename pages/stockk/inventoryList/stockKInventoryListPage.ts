@@ -4,6 +4,7 @@ class stockKInventoryListPage {
   #btnImport: string;
   ImportFileDialog: ImportFileDialog;
   stockkToastMessage: stockkToastMessage;
+  ConfirmPopup: ConfirmPopup;
   
 
   constructor() {
@@ -11,6 +12,7 @@ class stockKInventoryListPage {
     this.#btnImport = `${this.#container}//button[.//span[normalize-space(.)='Import']]`;
     this.ImportFileDialog = new ImportFileDialog();
     this.stockkToastMessage = stockkToastMessage;
+    this.ConfirmPopup = new ConfirmPopup();
   }
 
   async ClickImportButton(): Promise<void> {
@@ -60,6 +62,36 @@ class ImportFileDialog {
       await fileChooser.setFiles(filePath);
     });
     await I.log(`Selected file: ${filePath}`);
+  }
+}
+class ConfirmPopup {
+  #container: string;
+  #btnApprove: string;
+  #btnDecline: string
+  #txtMessage: string;
+  
+  constructor() {
+    this.#container = '//stock-k-confirm-popup-top';
+    this.#btnApprove = `${this.#container}//button[.//span[normalize-space(.)='Approve']]`;
+    this.#btnDecline = `${this.#container}//button[.//span[normalize-space(.)='Decline']]`;
+    this.#txtMessage = `${this.#container}//p`;
+  }
+  async ClickApproveButton(): Promise<void> {
+    await I.waitForVisible(this.#btnApprove, 15);
+    await I.click(this.#btnApprove);
+    await I.log('Clicked Approve button in dialog');
+    await stockkSpinner.waitForAllSpinnerToDisappear();
+  }
+  async ClickDeclineButton(): Promise<void> {
+    await I.waitForVisible(this.#btnDecline, 15);
+    await I.click(this.#btnDecline);
+    await I.log('Clicked Decline button in dialog');
+    await stockkSpinner.waitForAllSpinnerToDisappear();
+  }
+  async SeeMessage(message: string): Promise<void> {
+    await I.waitForVisible(this.#txtMessage, 15);
+    await I.see(message, this.#txtMessage);
+    await I.log('See message in dialog');
   }
 }
 

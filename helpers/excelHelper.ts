@@ -8,7 +8,7 @@ class ExcelHelper extends Helper {
     outputFilePath: string,
     searchText: string,
     replaceText: string
-  ) {
+  ): Promise<void> {
     const workbook = new ExcelJS.Workbook();
 
     try {
@@ -54,17 +54,14 @@ class ExcelHelper extends Helper {
         useStyles: true,
         useSharedStrings: true,
       });
-
       console.log(`Successfully saved updated file to: ${outputFilePath}`);
-      throw new Error("Error processing Excel file:");
-      return true;
     } catch (error) {
       console.error("Error processing Excel file:", error);
       throw error;
     }
 
     // Helper function to escape regex special characters
-    function escapeRegExp(string) {
+    function escapeRegExp(string: string): string {
       return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     }
   }
