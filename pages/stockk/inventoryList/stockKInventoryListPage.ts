@@ -1,9 +1,10 @@
-const { I, stockkSpinner, stockkToastMessage } = inject();
+const { I, stockkSpinner, stockkToastMessage, stockkTable } = inject();
 class stockKInventoryListPage {
   #container: string;
   #btnImport: string;
   ImportFileDialog: ImportFileDialog;
   stockkToastMessage: stockkToastMessage;
+  stockkTable: stockkTable;
   ConfirmPopup: ConfirmPopup;
   
 
@@ -12,6 +13,7 @@ class stockKInventoryListPage {
     this.#btnImport = `${this.#container}//button[.//span[normalize-space(.)='Import']]`;
     this.ImportFileDialog = new ImportFileDialog();
     this.stockkToastMessage = stockkToastMessage;
+    this.stockkTable = stockkTable;
     this.ConfirmPopup = new ConfirmPopup();
   }
 

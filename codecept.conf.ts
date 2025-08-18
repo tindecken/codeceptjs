@@ -51,6 +51,8 @@ export const config: CodeceptJS.MainConfig = {
     stockkMenu: "./pages/stockk/fragments/menu/stockkMenu.ts",
     stockKInventoryListPage: "./pages/stockk/inventoryList/stockKInventoryListPage.ts",
     stockkToastMessage: "./pages/stockk/fragments/toastMessage/stockkToastMessage.ts",
+    stockkTable: "./pages/stockk/fragments/table/stockkTable.ts",
+    stockkConfirmPopup: "./pages/stockk/fragments/confirmPopup/stockkConfirmPopup.ts",
   },
   name: 'codeceptjs',
   fullPromiseBased: true,
@@ -69,6 +71,20 @@ export const config: CodeceptJS.MainConfig = {
     logAfterTest: {
       enabled: true,
       require: './plugins/LogAfterTest.ts',
-    }
+    },
+    AI: {}
   },
+  ai: {
+    request: async (messages:string) => {
+      const OpenAI = require('openai')
+      const openai = new OpenAI({ apiKey: appSettings.ai.openAI.apiKey })
+  
+      const completion = await openai.chat.completions.create({
+        model: appSettings.ai.openAI.model,
+        messages,
+      })
+  
+      return completion?.choices[0]?.message?.content
+    }
+  }
 }

@@ -58,6 +58,12 @@ interface AppSettings {
         deepSeek: {
             apiKey: string
             baseUrl: string
+            model: string
+        }
+        openAI: {
+            apiKey: string
+            model: string
+            baseUrl: string
         }
     }
 }
@@ -121,7 +127,13 @@ export const appSettings : AppSettings = {
     ai: {
         deepSeek: {
             apiKey: "sk-f75469c79b2a49a789c39aa23932d21a",
-            baseUrl: "https://api.deepseek.com"
+            baseUrl: "https://api.deepseek.com",
+            model: "deepseek-chat"
+        },
+        openAI: {
+            apiKey: "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",
+            model: "o4-mini",
+            baseUrl: ""
         }
     }
 };

@@ -24,9 +24,13 @@ type StockKInventoryListPageClass = typeof import('./pages/stockk/inventoryList/
 type stockKInventoryListPage = InstanceType<StockKInventoryListPageClass>;
 type StockkToastMessageClass = typeof import('./pages/stockk/fragments/toastMessage/stockkToastMessage').default;
 type stockkToastMessage = InstanceType<StockkToastMessageClass>;
+type StockkTableClass = typeof import('./pages/stockk/fragments/table/stockkTable').default;
+type stockkTable = InstanceType<StockkTableClass>;
+type StockkConfirmPopupClass = typeof import('./pages/stockk/fragments/confirmPopup/stockkConfirmPopup').default;
+type stockkConfirmPopup = InstanceType<StockkConfirmPopupClass>;
 
 declare namespace CodeceptJS {
-  interface SupportObject { I: I, loginPage: loginPage, rightToolbarPage: rightToolbarPage, stockkLoginPage: stockkLoginPage, stockkTopBar: stockkTopBar, stockkSpinner: stockkSpinner, stockkMenu: stockkMenu, stockKInventoryListPage: stockKInventoryListPage, stockkToastMessage: stockkToastMessage }
+  interface SupportObject { I: I, loginPage: loginPage, rightToolbarPage: rightToolbarPage, stockkLoginPage: stockkLoginPage, stockkTopBar: stockkTopBar, stockkSpinner: stockkSpinner, stockkMenu: stockkMenu, stockKInventoryListPage: stockKInventoryListPage, stockkToastMessage: stockkToastMessage, stockkTable: stockkTable, stockkConfirmPopup: stockkConfirmPopup }
   interface Methods extends PlaywrightTs, FileSystemTs, FolderHelper, Log, ExcelHelper, AIHelper, ExpectHelper {}
   interface I extends ReturnType<steps_file>, WithTranslation<Methods> {}
   namespace Translation {
