@@ -22,6 +22,7 @@ Scenario('Import inventory with valid file',  async ({ I, stockkLoginPage, stock
     await I.expectEqual('SUCSA', await stockKInventoryListPage.stockkTable.GetCellValueByConditional("Item Reference", `${_itemReference} 1`, 'Goods Owner'));
     await I.expectEqual('RPMNJ', await stockKInventoryListPage.stockkTable.GetCellValueByConditional("Item Reference", `${_itemReference} 1`, 'Warehouse'));
     await I.expectEqual(true, await stockKInventoryListPage.stockkTable.IsCellEditable(1, 'Container Number'));
+    pause()
 });
 
 Scenario('Import inventory - check editable cell',  async ({ I, stockkLoginPage, stockkTopBar, stockkMenu, stockKInventoryListPage }) => {

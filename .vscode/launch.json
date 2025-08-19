@@ -6,7 +6,7 @@
         "request": "launch",
         "name": "Debug CodeceptJS Tests",
         "program": "${workspaceFolder}/node_modules/codeceptjs/bin/codecept.js",
-        "args": ["run", "--steps","--grep", "Import inventory - check editable cell"],
+        "args": ["run", "--steps","--grep", "Click link in cell"],
         "console": "integratedTerminal",
         "internalConsoleOptions": "neverOpen",
         "skipFiles": ["<node_internals>/**"]

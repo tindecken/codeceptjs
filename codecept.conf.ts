@@ -54,6 +54,8 @@ export const config: CodeceptJS.MainConfig = {
     stockkToastMessage: "./pages/stockk/fragments/toastMessage/stockkToastMessage.ts",
     stockkTable: "./pages/stockk/fragments/table/stockkTable.ts",
     stockkConfirmPopup: "./pages/stockk/fragments/confirmPopup/stockkConfirmPopup.ts",
+    stockKReconcilliationListPage: "./pages/stockk/reconcilliationList/stockKReconcilliationListPage.ts",
+    stockKReconcilliationDetailComparisonResultPage: "./pages/stockk/reconcilliationDetailComparisonResult/stockKReconcilliationDetailComparisonResultPage.ts",
   },
   name: 'codeceptjs',
   fullPromiseBased: true,

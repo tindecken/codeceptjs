@@ -28,9 +28,13 @@ type StockkTableClass = typeof import('./pages/stockk/fragments/table/stockkTabl
 type stockkTable = InstanceType<StockkTableClass>;
 type StockkConfirmPopupClass = typeof import('./pages/stockk/fragments/confirmPopup/stockkConfirmPopup').default;
 type stockkConfirmPopup = InstanceType<StockkConfirmPopupClass>;
+type StockKReconcilliationListPageClass = typeof import('./pages/stockk/reconcilliationList/stockKReconcilliationListPage').default;
+type stockKReconcilliationListPage = InstanceType<StockKReconcilliationListPageClass>;
+type StockKReconcilliationDetailComparisonResultPageClass = typeof import('./pages/stockk/reconcilliationDetailComparisonResult/stockKReconcilliationDetailComparisonResultPage').default;
+type stockKReconcilliationDetailComparisonResultPage = InstanceType<StockKReconcilliationDetailComparisonResultPageClass>;
 
 declare namespace CodeceptJS {
-  interface SupportObject { I: I, loginPage: loginPage, rightToolbarPage: rightToolbarPage, stockkLoginPage: stockkLoginPage, stockkTopBar: stockkTopBar, stockkSpinner: stockkSpinner, stockkMenu: stockkMenu, stockKInventoryListPage: stockKInventoryListPage, stockkToastMessage: stockkToastMessage, stockkTable: stockkTable, stockkConfirmPopup: stockkConfirmPopup }
+  interface SupportObject { I: I, loginPage: loginPage, rightToolbarPage: rightToolbarPage, stockkLoginPage: stockkLoginPage, stockkTopBar: stockkTopBar, stockkSpinner: stockkSpinner, stockkMenu: stockkMenu, stockKInventoryListPage: stockKInventoryListPage, stockkToastMessage: stockkToastMessage, stockkTable: stockkTable, stockkConfirmPopup: stockkConfirmPopup, stockKReconcilliationListPage: stockKReconcilliationListPage, stockKReconcilliationDetailComparisonResultPage: stockKReconcilliationDetailComparisonResultPage }
   interface Methods extends PlaywrightTs, FileSystemTs, FolderHelper, Log, ExcelHelper, AIHelper, ExpectHelper {}
   interface I extends ReturnType<steps_file>, WithTranslation<Methods> {}
   namespace Translation {
