@@ -23,6 +23,7 @@ export const config: CodeceptJS.MainConfig = {
       show: true,
       trace: true,
       video: true,
+      windowSize: '1900x900'
     },
     Expect: {
       require: '@codeceptjs/expect-helper'

@@ -1,18 +1,49 @@
 // TableComponent.ts (CodeceptJS + Playwright)
+import { Locator } from "playwright";
+
 // Requires CodeceptJS with Playwright helper enabled.
 const { I, stockkSpinner } = inject();
-
+const Helper = require("@codeceptjs/helper");
 type Int = number;
-class stockkTable {
+class stockkTable extends Helper {
   private root: string;
 
   constructor(rootSelector: string = '//p-table') {
+    super();
     this.root = rootSelector;
   }
 
   // ========= Utils =========
   private normalize(text?: string | null): string {
     return (text ?? '').replace(/\s+/g, ' ').replace(/\u2019/g, "'").trim();
+  }
+
+  private async getVisibleTableXPath(): Promise<string> {
+    try {
+      // Use CodeceptJS methods with xpath format
+      const playwrightHelper = this.helpers['Playwright']
+      const tables: Locator[] = await playwrightHelper._locate({xpath: this.root});
+      const tableCount = tables.length;
+      if (tableCount === 0) {
+        console.log('No tables found, using fallback');
+        return this.root;
+      }
+      if (tableCount === 1) {
+        // Only one table, return it directly
+        return this.root;
+      }
+      
+      for (let i = 0; i < tables.length; i++) {
+        const isVisible = await tables[i].isVisible()
+        if (isVisible) {
+          return `(${this.root})[${i + 1}]`;
+        }
+      }
+      
+    } catch (error) {
+      console.log('Error in getVisibleTableXPath:', error);
+      return this.root;
+    }
   }
 
   private async waitForTableLoading(): Promise<void> {
@@ -28,25 +59,30 @@ class stockkTable {
     return `concat(${parts.join(", \"'\", ")})`;
   }
 
-  // ========= XPath builders (scoped to this.root) =========
-  private headerCells(): string {
-    return `${this.root}//thead//tr[last()]//th`;
+  // ========= XPath builders (scoped to visible table) =========
+  private async headerCells(): Promise<string> {
+    const visibleRoot = await this.getVisibleTableXPath();
+    return `${visibleRoot}//thead//tr[last()]//th`;
   }
 
-  private rowElems(): string {
-    return `${this.root}//tbody//tr`;
+  private async rowElems(): Promise<string> {
+    const visibleRoot = await this.getVisibleTableXPath();
+    return `${visibleRoot}//tbody//tr`;
   }
 
-  private cellAt(rowIndex0: number, colIndex0: number): string {
-    return `${this.rowElems()}[${rowIndex0 + 1}]//td[${colIndex0 + 1}]`;
+  private async cellAt(rowIndex0: number, colIndex0: number): Promise<string> {
+    const rowElems = await this.rowElems();
+    return `${rowElems}[${rowIndex0 + 1}]//td[${colIndex0 + 1}]`;
   }
 
-  private headerCheckbox(): string {
-    return `${this.root}//p-tableheadercheckbox//div[@role='checkbox']`;
+  private async headerCheckbox(): Promise<string> {
+    const visibleRoot = await this.getVisibleTableXPath();
+    return `${visibleRoot}//p-tableheadercheckbox//div[@role='checkbox']`;
   }
 
-  private firstColumnCheckboxAtRow(rowIndex1: number): string {
-    return `${this.rowElems()}[${rowIndex1}]//td[1]//*[@role='checkbox']`;
+  private async firstColumnCheckboxAtRow(rowIndex1: number): Promise<string> {
+    const rowElems = await this.rowElems();
+    return `${rowElems}[${rowIndex1}]//td[1]//*[@role='checkbox']`;
   }
 
   private linkInCellByText(cellXPath: string, linkText: string): string {
@@ -67,24 +103,26 @@ class stockkTable {
     return `${cellXPath}//input | ${cellXPath}//textarea`;
   }
 
-  private headerCopyButtonAtColumn(colIndex0: number): string {
+  private async headerCopyButtonAtColumn(colIndex0: number): Promise<string> {
     // PrimeNG header cell likely contains <p-button>; click its button root
-    return `${this.headerCells()}[${colIndex0 + 1}]//p-button`;
+    const headerCells = await this.headerCells();
+    return `${headerCells}[${colIndex0 + 1}]//p-button`;
   }
 
   // ========= Low-level grabs =========
   private async grabHeaderTexts(): Promise<string[]> {
-    const count = await I.grabNumberOfVisibleElements(`xpath=${this.headerCells()}`);
+    const headerCells = await this.headerCells();
+    const count = await I.grabNumberOfVisibleElements(`xpath=${headerCells}`);
     const names: string[] = [];
     for (let i = 1; i <= count; i++) {
-      const txt = await I.grabTextFrom(`xpath=${this.headerCells()}[${i}]`);
+      const txt = await I.grabTextFrom(`xpath=${headerCells}[${i}]`);
       names.push(this.normalize(txt));
     }
     return names;
   }
 
   private async grabCellText(rowIndex0: number, colIndex0: number): Promise<string> {
-    const cellXPath = this.cellAt(rowIndex0, colIndex0);
+    const cellXPath = await this.cellAt(rowIndex0, colIndex0);
     return await I.usePlaywrightTo('grab cell text or input value (XPath)', async ({ page }) => {
       const cell = await page.$(`xpath=${cellXPath}`);
       if (!cell) return '';
@@ -104,22 +142,22 @@ class stockkTable {
   /** async GetNumberOfRows(): Promise<number> */
   public async GetNumberOfRows(): Promise<number> {
     await this.waitForTableLoading();
-    const noDataXPath = `${this.root}//tbody//*[contains(normalize-space(.), 'No records available.')]`;
+    const visibleRoot = await this.getVisibleTableXPath();
+    const noDataXPath = `${visibleRoot}//tbody//*[contains(normalize-space(.), 'No records available.')]`;
     const noDataCount = await I.grabNumberOfVisibleElements(`xpath=${noDataXPath}`);
     if (noDataCount > 0) return 0;
-    const rows = await I.grabNumberOfVisibleElements(`xpath=${this.rowElems()}`);
+    const rowElems = await this.rowElems();
+    const rows = await I.grabNumberOfVisibleElements(`xpath=${rowElems}`);
     return rows;
   }
 
   /** async GetColumnIndexOfTable(columnName: string): Promise<int> (0-based; -1 if not found) */
   public async GetColumnIndexOfTable(columnName: string): Promise<Int> {
     const names = await this.grabHeaderTexts();
-    console.log('names', names);
     const target = this.normalize(columnName);
     for (let i = 0; i < names.length; i++) {
       if (names[i] === target) return i;
     }
-    console.log('Column "' + columnName + '" not found');
     return -1;
   }
 
@@ -151,7 +189,7 @@ class stockkTable {
     const row = await this.GetRowIndexOfTableByColumnNameAndValue(columnName, cellValue);
     if (row < 1) throw new Error(`Row not found for ${columnName} = "${cellValue}"`);
     const col = await this.GetColumnIndexOfTable(columnName);
-    const cellXPath = this.cellAt(row - 1, col);
+    const cellXPath = await this.cellAt(row - 1, col);
 
     await I.usePlaywrightTo('click link in cell (XPath)', async ({ page }) => {
       const byText = await page.$(`xpath=${this.linkInCellByText(cellXPath, cellValue)}`);
@@ -170,7 +208,7 @@ class stockkTable {
     if (rowNumber < 1 || rowNumber > rows) throw new Error(`Row ${rowNumber} out of range (1..${rows})`);
     const col = await this.GetColumnIndexOfTable(columnName);
     if (col < 0) throw new Error(`Column "${columnName}" not found`);
-    const cellXPath = this.cellAt(rowNumber - 1, col);
+    const cellXPath = await this.cellAt(rowNumber - 1, col);
 
     await I.usePlaywrightTo('click named link in cell (XPath)', async ({ page }) => {
       const link = await page.$(`xpath=${this.linkInCellByText(cellXPath, linkName)}`);
@@ -188,7 +226,7 @@ class stockkTable {
     if (rowNumber < 1 || rowNumber > rows) throw new Error(`Row ${rowNumber} out of range (1..${rows})`);
     const col = await this.GetColumnIndexOfTable(columnName);
     if (col < 0) throw new Error(`Column "${columnName}" not found`);
-    const cellXPath = this.cellAt(rowNumber - 1, col);
+    const cellXPath = await this.cellAt(rowNumber - 1, col);
 
     await I.usePlaywrightTo('click button in cell (XPath)', async ({ page }) => {
       const btn = await page.$(`xpath=${this.buttonInCellByText(cellXPath, buttonName)}`);
@@ -226,7 +264,8 @@ class stockkTable {
     if (colIdx === -1) throw new Error(`Column: ${columnName} not found`);
 
     await I.usePlaywrightTo('click header copy icon (XPath)', async ({ page }) => {
-      const btn = await page.$(`xpath=${this.headerCopyButtonAtColumn(colIdx)}`);
+      const headerCopyButton = await this.headerCopyButtonAtColumn(colIdx);
+      const btn = await page.$(`xpath=${headerCopyButton}`);
       if (!btn) throw new Error(`No copy icon found for column: ${columnName}`);
       await btn.click();
     });
@@ -270,7 +309,7 @@ class stockkTable {
     const colIdx = await this.GetColumnIndexOfTable(columnName);
     if (colIdx < 0) throw new Error(`Column "${columnName}" not found`);
 
-    const cellXPath = this.cellAt(rowNumber - 1, colIdx);
+    const cellXPath = await this.cellAt(rowNumber - 1, colIdx);
     const isEditable = await I.usePlaywrightTo('cell editability (XPath)', async ({ page }) => {
       const input = await page.$(`xpath=${this.inputInCell(cellXPath)}`);
       if (!input) return false;
@@ -291,7 +330,7 @@ class stockkTable {
     console.log(`Column index of "${columnName}": ${colIdx}`);
     if (colIdx < 0) throw new Error(`Column "${columnName}" not found`);
 
-    const cellXPath = this.cellAt(rowNumber - 1, colIdx);
+    const cellXPath = await this.cellAt(rowNumber - 1, colIdx);
     await I.usePlaywrightTo('fill input cell (XPath)', async ({ page }) => {
       // Prefer direct inputs
       const input = await page.$(`xpath=${this.inputInCell(cellXPath)}`);
@@ -336,7 +375,7 @@ class stockkTable {
     const colIdx = await this.GetColumnIndexOfTable(columnName);
     if (colIdx < 0) throw new Error(`Column "${columnName}" not found`);
 
-    const cellXPath = this.cellAt(rowNumber - 1, colIdx);
+    const cellXPath = await this.cellAt(rowNumber - 1, colIdx);
     return I.usePlaywrightTo('tooltip text (XPath)', async ({ page }) => {
       const cell = await page.$(`xpath=${cellXPath}`);
       if (!cell) throw new Error('Cell not found');
@@ -364,7 +403,7 @@ class stockkTable {
     const colIdx = await this.GetColumnIndexOfTable(columnName);
     if (colIdx < 0) throw new Error(`Column "${columnName}" not found`);
 
-    const cellXPath = this.cellAt(row - 1, colIdx);
+    const cellXPath = await this.cellAt(row - 1, colIdx);
     return I.usePlaywrightTo('tooltip text by conditional (XPath)', async ({ page }) => {
       const cell = await page.$(`xpath=${cellXPath}`);
       if (!cell) throw new Error('Cell not found');
@@ -395,7 +434,7 @@ class stockkTable {
   public async SetCheckboxByRowIndex(rowNumber: number, isChecked: boolean): Promise<void> {
     const rows = await this.GetNumberOfRows();
     if (rowNumber < 1 || rowNumber > rows) throw new Error(`Row ${rowNumber} out of range (1..${rows})`);
-    const cbXPath = this.firstColumnCheckboxAtRow(rowNumber);
+    const cbXPath = await this.firstColumnCheckboxAtRow(rowNumber);
     await I.usePlaywrightTo('toggle row checkbox (XPath)', async ({ page }) => {
       const cb = await page.$(`xpath=${cbXPath}`);
       if (!cb) throw new Error('Checkbox not found');
@@ -417,7 +456,7 @@ class stockkTable {
   public async IsCheckboxReadonlyByConditional(columnName: string, value: string): Promise<boolean> {
     const row = await this.GetRowIndexOfTableByColumnNameAndValue(columnName, value);
     if (row < 1) return false;
-    const cbXPath = this.firstColumnCheckboxAtRow(row);
+    const cbXPath = await this.firstColumnCheckboxAtRow(row);
     return I.usePlaywrightTo('readonly checkbox class (XPath)', async ({ page }) => {
       const cb = await page.$(`xpath=${cbXPath}`);
       if (!cb) return false;
@@ -431,7 +470,7 @@ class stockkTable {
   public async IsCheckboxCheckedByConditional(columnName: string, value: string): Promise<boolean> {
     const row = await this.GetRowIndexOfTableByColumnNameAndValue(columnName, value);
     if (row < 1) return false;
-    const cbXPath = this.firstColumnCheckboxAtRow(row);
+    const cbXPath = await this.firstColumnCheckboxAtRow(row);
     return I.usePlaywrightTo('checked state (XPath)', async ({ page }) => {
       const cb = await page.$(`xpath=${cbXPath}`);
       const aria = (cb && (await cb.getAttribute('aria-checked'))) || 'false';
@@ -442,7 +481,8 @@ class stockkTable {
   /** async UncheckAllCheckboxByClickOnHeader(): Promise<void> */
   public async UncheckAllCheckboxByClickOnHeader(): Promise<void> {
     await I.usePlaywrightTo('uncheck header checkbox if checked (XPath)', async ({ page }) => {
-      const headerCb = await page.$(`xpath=${this.headerCheckbox()}`);
+      const headerCheckboxXPath = await this.headerCheckbox();
+      const headerCb = await page.$(`xpath=${headerCheckboxXPath}`);
       if (!headerCb) return;
       const aria = (await headerCb.getAttribute('aria-checked')) ?? 'false';
       if (aria === 'true') {
@@ -453,10 +493,11 @@ class stockkTable {
     await I.wait(0.5);
   }
 
-  /** async SetHeaderCheckboxAsync(isChecked): Promise<void> */
-  public async SetHeaderCheckboxAsync(isChecked: boolean): Promise<void> {
+  /** async SetHeaderCheckbox(isChecked): Promise<void> */
+  public async SetHeaderCheckbox(isChecked: boolean): Promise<void> {
     await I.usePlaywrightTo('set header checkbox state (XPath)', async ({ page }) => {
-      const cb = await page.$(`xpath=${this.headerCheckbox()}`);
+      const headerCheckboxXPath = await this.headerCheckbox();
+      const cb = await page.$(`xpath=${headerCheckboxXPath}`);
       if (!cb) throw new Error('Header checkbox not found');
       const aria = (await cb.getAttribute('aria-checked')) ?? 'false';
       const currently = aria === 'true';
@@ -468,7 +509,8 @@ class stockkTable {
   /** async IsHeaderCheckboxDisabled(): Promise<boolean> */
   public async IsHeaderCheckboxDisabled(): Promise<boolean> {
     return I.usePlaywrightTo('header checkbox disabled? (XPath)', async ({ page }) => {
-      const cb = await page.$(`xpath=${this.headerCheckbox()}`);
+      const headerCheckboxXPath = await this.headerCheckbox();
+      const cb = await page.$(`xpath=${headerCheckboxXPath}`);
       if (!cb) return false;
       const cls = (await cb.getAttribute('class')) ?? '';
       const ariaDisabled = (await cb.getAttribute('aria-disabled')) ?? 'false';
@@ -476,10 +518,11 @@ class stockkTable {
     });
   }
 
-  /** async IsHeaderCheckboxCheckedAsync(): Promise<boolean> */
-  public async IsHeaderCheckboxCheckedAsync(): Promise<boolean> {
+  /** async IsHeaderCheckboxChecked(): Promise<boolean> */
+  public async IsHeaderCheckboxChecked(): Promise<boolean> {
     return I.usePlaywrightTo('header checkbox checked? (XPath)', async ({ page }) => {
-      const cb = await page.$(`xpath=${this.headerCheckbox()}`);
+      const headerCheckboxXPath = await this.headerCheckbox();
+      const cb = await page.$(`xpath=${headerCheckboxXPath}`);
       const aria = (cb && (await cb.getAttribute('aria-checked'))) || 'false';
       return aria === 'true';
     });

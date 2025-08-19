@@ -1,3 +1,8 @@
+import * as dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
+
 interface AppSettings {
     stockK: {
         baseUrl: string;
@@ -126,12 +131,12 @@ export const appSettings : AppSettings = {
     },
     ai: {
         deepSeek: {
-            apiKey: "",
+            apiKey: process.env.DEEPSEEK_API_KEY || "",
             baseUrl: "https://api.deepseek.com",
             model: "deepseek-chat"
         },
         openAI: {
-            apiKey: "",
+            apiKey: process.env.OPENAI_API_KEY || "",
             model: "o4-mini",
             baseUrl: ""
         }

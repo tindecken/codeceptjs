@@ -43,4 +43,10 @@ Scenario('Import inventory - check editable cell',  async ({ I, stockkLoginPage,
     await I.expectEqual(true, await stockKInventoryListPage.stockkTable.IsCellEditable(1, 'Package Quantity'));
     await stockKInventoryListPage.stockkTable.SetCellValue(1, 'Package Quantity', '123');
     await stockKInventoryListPage.stockkTable.SetCellValueByConditional('Purchase Reference', 'AUTO-1', 'Landed Net Weight', '456');
+    await stockKInventoryListPage.stockkTable.SetCellValueByConditional('Purchase Reference', 'AUTO-1', 'Ceel Number', '11111');
+    await stockKInventoryListPage.stockkTable.SetCellValueByConditional('Purchase Reference', 'AUTO-1', 'Landed Gross Weight', '22222')
+    await stockKInventoryListPage.stockkTable.SetHeaderCheckbox(false);
+    const state = await stockKInventoryListPage.stockkTable.GetCellValueByConditional('Purchase Reference', 'AUTO-1', 'State')
+    await I.expectEqual(state, 'OVER LANDED')
+    pause()
 });
