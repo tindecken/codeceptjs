@@ -1,4 +1,4 @@
-Feature('Popular Movies app - Login');
+Feature('MovieApp - Login');
 
 Scenario('Login Popular Movies app',  async ({ I, rightToolbarPage, loginPage  }) => {
     await I.amOnPage('')

@@ -6,7 +6,7 @@
         "request": "launch",
         "name": "Debug CodeceptJS Tests",
         "program": "${workspaceFolder}/node_modules/codeceptjs/bin/codecept.js",
-        "args": ["run", "--steps","--grep", "Click link in cell"],
+        "args": ["run", "--steps","--grep", "start new reconcilliation"],
         "console": "integratedTerminal",
         "internalConsoleOptions": "neverOpen",
         "skipFiles": ["<node_internals>/**"]

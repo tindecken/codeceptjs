@@ -8,6 +8,10 @@ interface AppSettings {
         baseUrl: string;
         baseApiUrl: string;
     }
+    movieApp: {
+        baseUrl: string;
+        baseApiUrl: string;
+    }
     logging: {
         path: string
     }
@@ -77,6 +81,10 @@ export const appSettings : AppSettings = {
     stockK: {
         baseUrl: "https://stockkqa.sucafina.corp/",
         baseApiUrl: "https://stockkqa.sucafina.corp:44317/api"
+    },
+    movieApp: {
+        baseUrl: "https://stockkqa.sucafina.corp/",
+        baseApiUrl: ""
     },
     logging: {
         path: "./logs"

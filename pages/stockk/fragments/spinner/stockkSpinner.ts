@@ -11,10 +11,10 @@ class stockkSpinner {
     this.#txtLoading = '//ngx-spinner//h3[text()="Loading..."]';
     this.#spinnerIconInLoginPage = '//stockk-login//p-progressspinner';
   }
-  async waitForAllSpinnerToDisappear(timeout: number = 30): Promise<void> {
-    await I.waitForInvisible(this.#spinnerIconInTable, timeout);
-    await I.waitForInvisible(this.#txtLoading, timeout);
-    await I.waitForInvisible(this.#spinnerIconInLoginPage, timeout);
+  async waitForAllSpinnerInvisible(timeout: number = 30): Promise<void> {
+    I.waitForInvisible(this.#spinnerIconInTable, timeout);
+    I.waitForInvisible(this.#txtLoading, timeout);
+    I.waitForInvisible(this.#spinnerIconInLoginPage, timeout);
   }
 
 }

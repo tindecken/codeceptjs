@@ -1,4 +1,4 @@
-Feature('Stockk - AI');
+Feature('Others - AI');
 
 Scenario('AI Asking',  async ({ I, stockkLoginPage, stockkTopBar  }) => {
     await I.amOnPage('')

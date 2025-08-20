@@ -20,7 +20,7 @@ class stockkLoginPage {
     await I.click(this.#btnLogin);
     await I.log('Clicked login button then wait 1s');
     await I.wait(1);
-    await stockkSpinner.waitForAllSpinnerToDisappear();
+    await stockkSpinner.waitForAllSpinnerInvisible();
   }
   async LoginWithHNU(): Promise<void> {
     await I.log('Login with HNU');

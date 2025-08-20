@@ -27,7 +27,7 @@ class stockkTopBar {
     var companyLocator = `${this.#container}//p[contains(@class,'company') and normalize-space(text())='${company}']`;
     await I.click(companyLocator);
     await I.log(`Switched company to: ${company}`);
-    await stockkSpinner.waitForAllSpinnerToDisappear();
+    await stockkSpinner.waitForAllSpinnerInvisible();
   }
   async getListCompanies(): Promise<string[]> {
     let listCompanies: string[] = [];

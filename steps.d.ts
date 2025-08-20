@@ -32,9 +32,11 @@ type StockKReconcilliationListPageClass = typeof import('./pages/stockk/reconcil
 type stockKReconcilliationListPage = InstanceType<StockKReconcilliationListPageClass>;
 type StockKReconcilliationDetailComparisonResultPageClass = typeof import('./pages/stockk/reconcilliationDetailComparisonResult/stockKReconcilliationDetailComparisonResultPage').default;
 type stockKReconcilliationDetailComparisonResultPage = InstanceType<StockKReconcilliationDetailComparisonResultPageClass>;
+type startReconcilliationDialogClass = typeof import('./pages/stockk/fragments/reconcilliationList/startReconcilliationDialog').default;
+type startReconcilliationDialog = InstanceType<startReconcilliationDialogClass>;
 
 declare namespace CodeceptJS {
-  interface SupportObject { I: I, loginPage: loginPage, rightToolbarPage: rightToolbarPage, stockkLoginPage: stockkLoginPage, stockkTopBar: stockkTopBar, stockkSpinner: stockkSpinner, stockkMenu: stockkMenu, stockKInventoryListPage: stockKInventoryListPage, stockkToastMessage: stockkToastMessage, stockkTable: stockkTable, stockkConfirmPopup: stockkConfirmPopup, stockKReconcilliationListPage: stockKReconcilliationListPage, stockKReconcilliationDetailComparisonResultPage: stockKReconcilliationDetailComparisonResultPage }
+  interface SupportObject { I: I, loginPage: loginPage, rightToolbarPage: rightToolbarPage, stockkLoginPage: stockkLoginPage, stockkTopBar: stockkTopBar, stockkSpinner: stockkSpinner, stockkMenu: stockkMenu, stockKInventoryListPage: stockKInventoryListPage, stockkToastMessage: stockkToastMessage, stockkTable: stockkTable, stockkConfirmPopup: stockkConfirmPopup, stockKReconcilliationListPage: stockKReconcilliationListPage, stockKReconcilliationDetailComparisonResultPage: stockKReconcilliationDetailComparisonResultPage, startReconcilliationDialog: startReconcilliationDialog }
   interface Methods extends PlaywrightTs, FileSystemTs, FolderHelper, Log, ExcelHelper, AIHelper, ExpectHelper {}
   interface I extends ReturnType<steps_file>, WithTranslation<Methods> {}
   namespace Translation {

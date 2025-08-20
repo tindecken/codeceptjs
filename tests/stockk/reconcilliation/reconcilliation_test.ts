@@ -12,3 +12,13 @@ Scenario('Click link in cell',  async ({ I, stockkLoginPage, stockkTopBar, stock
     await stockKReconcilliationDetailComparisonResultPage.stockkTable.SetCellValueByConditional("Goods Owners Purchase Reference", "NPBR-20156", "Goods Owner Comment", "Commentttttttttt test")
     pause()
 });
+
+Scenario('start new reconcilliation',  async ({ I, stockkLoginPage, stockkTopBar, stockkMenu, stockKReconcilliationListPage, stockKReconcilliationDetailComparisonResultPage }) => {
+    await I.amOnPage('')
+    await stockkLoginPage.LoginWithHNU();
+    await stockkTopBar.seeAvatarBlock();
+    await stockkTopBar.switchCompany("SUCSA");
+    await stockkMenu.GoToMenu("Inventory", "Reconciliation");
+    await stockKReconcilliationListPage.ClickButtonReconcilliationSession();
+    await stockKReconcilliationListPage.startReconcilliationDialog.SetPartyWarehouse("Annex");
+});

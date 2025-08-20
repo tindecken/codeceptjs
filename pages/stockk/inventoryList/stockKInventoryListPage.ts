@@ -21,7 +21,7 @@ class stockKInventoryListPage {
     await I.waitForVisible(this.#btnImport, 15);
     await I.click(this.#btnImport);
     await I.log('Clicked Import button');
-    await stockkSpinner.waitForAllSpinnerToDisappear();
+    await stockkSpinner.waitForAllSpinnerInvisible();
   }
 }
 
@@ -41,13 +41,13 @@ class ImportFileDialog {
     await I.waitForVisible(this.#btnImport, 15);
     await I.click(this.#btnImport);
     await I.log('Clicked Import button in dialog');
-    await stockkSpinner.waitForAllSpinnerToDisappear();
+    await stockkSpinner.waitForAllSpinnerInvisible();
   }
   async ClickCancelButton(): Promise<void> {
     await I.waitForVisible(this.#btnCancel, 15);
     await I.click(this.#btnCancel);
     await I.log('Clicked Cancel button in dialog');
-    await stockkSpinner.waitForAllSpinnerToDisappear();
+    await stockkSpinner.waitForAllSpinnerInvisible();
   }
 
   async SelectFile(filePath: string): Promise<void> {
@@ -82,13 +82,13 @@ class ConfirmPopup {
     await I.waitForVisible(this.#btnApprove, 15);
     await I.click(this.#btnApprove);
     await I.log('Clicked Approve button in dialog');
-    await stockkSpinner.waitForAllSpinnerToDisappear();
+    await stockkSpinner.waitForAllSpinnerInvisible();
   }
   async ClickDeclineButton(): Promise<void> {
     await I.waitForVisible(this.#btnDecline, 15);
     await I.click(this.#btnDecline);
     await I.log('Clicked Decline button in dialog');
-    await stockkSpinner.waitForAllSpinnerToDisappear();
+    await stockkSpinner.waitForAllSpinnerInvisible();
   }
   async SeeMessage(message: string): Promise<void> {
     await I.waitForVisible(this.#txtMessage, 15);

@@ -19,7 +19,8 @@ export const config: CodeceptJS.MainConfig = {
   helpers: {
     Playwright: {
       browser: 'chromium',
-      url: appSettings.stockK.baseUrl,
+      // url: appSettings.stockK.baseUrl,
+      url: appSettings.movieApp.baseUrl,
       show: true,
       trace: true,
       video: true,
@@ -56,6 +57,7 @@ export const config: CodeceptJS.MainConfig = {
     stockkConfirmPopup: "./pages/stockk/fragments/confirmPopup/stockkConfirmPopup.ts",
     stockKReconcilliationListPage: "./pages/stockk/reconcilliationList/stockKReconcilliationListPage.ts",
     stockKReconcilliationDetailComparisonResultPage: "./pages/stockk/reconcilliationDetailComparisonResult/stockKReconcilliationDetailComparisonResultPage.ts",
+    startReconcilliationDialog: "./pages/stockk/fragments/reconcilliationList/startReconcilliationDialog.ts",
   },
   name: 'codeceptjs',
   fullPromiseBased: true,

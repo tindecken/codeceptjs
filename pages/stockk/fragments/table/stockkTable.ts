@@ -48,7 +48,7 @@ class stockkTable extends Helper {
 
   private async waitForTableLoading(): Promise<void> {
     await I.wait(1);
-    await stockkSpinner.waitForAllSpinnerToDisappear();
+    await stockkSpinner.waitForAllSpinnerInvisible();
   }
 
   // Escape a JS string safely for XPath literal
