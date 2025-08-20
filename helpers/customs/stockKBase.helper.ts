@@ -13,7 +13,7 @@ const { I, stockkSpinner } = inject();
  * @param rootSelector CSS or XPath selector to the <p-autocomplete> root
  * @param rawValue single value OR comma-separated values (e.g. "v1,v2,v3")
  */
-export async function setValueAutocomplete(rootSelector: string, rawValue: string): Promise<void> {
+async function setValueAutocomplete(rootSelector: string, rawValue: string): Promise<void> {
   const values = rawValue
     .split(',')
     .map(v => v.trim())
@@ -78,4 +78,8 @@ export async function setValueAutocomplete(rootSelector: string, rawValue: strin
       throw new Error(`No option found with value: ${value}`);
     }
   }
+}
+
+export {
+  setValueAutocomplete
 }

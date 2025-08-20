@@ -26,6 +26,28 @@ async function moveFileIfExists(sourcePattern: string, destPath: string) {
   return false;
 }
 
+async function copyFileIfExists(sourcePattern: string, destPath: string) {
+  console.log(`[DEBUG] Looking for files matching: ${sourcePattern}`);
+  try {
+    const files = await glob(sourcePattern);
+    console.log(`[DEBUG] Found ${files.length} matching files`);
+    if (files.length > 0) {
+      console.log(`[DEBUG] Copying file from: ${files[0]} to: ${destPath}`);
+      await fs.copyFile(files[0], destPath);
+      console.log(`[SUCCESS] Copied file to: ${destPath}`);
+      return true;
+    } else {
+      console.log(`[DEBUG] No files found matching pattern: ${sourcePattern}`);
+    }
+  } catch (err) {
+    console.error(`[ERROR] Error copying file: ${err.message}`);
+    if (err.code === 'ENOENT') {
+      console.error(`[DEBUG] File not found: ${sourcePattern}`);
+    }
+  }
+  return false;
+}
+
 module.exports = async function () {
   codeceptEvent.dispatcher.on(codeceptEvent.test.after, async function (test) {
     // Only proceed for failed tests
@@ -44,14 +66,14 @@ module.exports = async function () {
       // Prepare the base filename from test title
       const baseFilename = test.title.replace(/\s+/g, '_');
 
-      // 1. Move screenshot
+      // 1. Copy screenshot
       try {
         const screenshotName = `${baseFilename}.failed.png`;
         const screenshotOutputPath = path.join(process.cwd(), 'output', screenshotName);
         const screenshotDestPath = path.join(folderPath, screenshotName);
-        await moveFileIfExists(screenshotOutputPath, screenshotDestPath);
+        await copyFileIfExists(screenshotOutputPath, screenshotDestPath);
       } catch (err) {
-        console.error(`[ERROR] Error moving screenshot:`, err);
+        console.error(`[ERROR] Error copying screenshot:`, err);
       }
 
       // 2. Move trace zip file

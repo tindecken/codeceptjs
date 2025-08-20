@@ -10,7 +10,6 @@ Scenario('Click link in cell',  async ({ I, stockkLoginPage, stockkTopBar, stock
     const tooltip = await stockKReconcilliationDetailComparisonResultPage.stockkTable.GetCellTooltipByConditionalAsync("Goods Owners Purchase Reference", "NPBR-20156", "Whs Keeper Package Quantity")
     await I.expectEqual(tooltip, "Original: 240")
     await stockKReconcilliationDetailComparisonResultPage.stockkTable.SetCellValueByConditional("Goods Owners Purchase Reference", "NPBR-20156", "Goods Owner Comment", "Commentttttttttt test")
-    pause()
 });
 
 Scenario('start new reconcilliation',  async ({ I, stockkLoginPage, stockkTopBar, stockkMenu, stockKReconcilliationListPage, stockKReconcilliationDetailComparisonResultPage }) => {
@@ -20,5 +19,5 @@ Scenario('start new reconcilliation',  async ({ I, stockkLoginPage, stockkTopBar
     await stockkTopBar.switchCompany("SUCSA");
     await stockkMenu.GoToMenu("Inventory", "Reconciliation");
     await stockKReconcilliationListPage.ClickButtonReconcilliationSession();
-    await stockKReconcilliationListPage.startReconcilliationDialog.SetPartyWarehouse("Annex");
+    await stockKReconcilliationListPage.startReconcilliationDialog.SetPartyWarehouse("dsfsdfsd");
 });

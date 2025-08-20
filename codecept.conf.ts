@@ -41,6 +41,9 @@ export const config: CodeceptJS.MainConfig = {
     },
     AIHelper: {
       require: './helpers/aiHelper.ts',
+    },
+    Mochawesome: {
+        uniqueScreenshotNames: false 
     }
   },
   include: {
@@ -62,10 +65,9 @@ export const config: CodeceptJS.MainConfig = {
   name: 'codeceptjs',
   fullPromiseBased: true,
   plugins: {
-    // Disable default screenshot plugin
     screenshotOnFail: {
       enabled: true,
-      uniqueScreenshotNames: false,
+      uniqueScreenshotNames: true,
       fullPageScreenshots: true,
     },
     // Enable our custom plugin
@@ -91,5 +93,10 @@ export const config: CodeceptJS.MainConfig = {
   
       return completion?.choices[0]?.message?.content
     }
-  }
+  },
+  mocha: {
+    reporterOptions: {
+        reportDir: "output"
+    }
+  },
 }
