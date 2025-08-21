@@ -9,7 +9,7 @@
         "args": ["run", "--steps","--grep", "start new reconcilliation"],
         "console": "integratedTerminal",
         "internalConsoleOptions": "neverOpen",
-        "skipFiles": ["<node_internals>/**"]
+        "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/codeceptjs/lib/**"]
       }
     ]
   }
